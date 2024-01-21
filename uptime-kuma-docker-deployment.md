@@ -1,4 +1,4 @@
-# UpTime Kuma Installation
+# UpTime Kuma Docker Deployment
 
 ## Creating a Directory
 
