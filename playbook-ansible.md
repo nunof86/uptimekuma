@@ -8,7 +8,7 @@
 
 ```yaml
 - name: UpTime Kuma Installation
-  hosts: localhost
+  hosts: uptimekuma_server
   become: true
   any_errors_fatal: true
   max_fail_percentage: 0
