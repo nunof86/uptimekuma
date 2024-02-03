@@ -24,38 +24,39 @@
         upgrade: dist
       register: upgrade_output
 
-    - name: Install Required Packages
+    - name: Install required packages
       apt:
         name:
           - apt-transport-https
           - ca-certificates
           - software-properties-common
         state: present
+      when: ansible_distribution in ['Ubuntu', 'Debian']
 
-    - name: Add Docker APT Key
+    - name: Add Docker APT key
       apt_key:
-        url: https://download.docker.com/linux/ubuntu/gpg
+        url: https://download.docker.com/linux/{{ ansible_distribution|lower }}/gpg
         state: present
+      when: ansible_distribution in ['Ubuntu', 'Debian']
 
-    - name: Add Docker APT Repository
+    - name: Add Docker APT repository
       apt_repository:
-        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_lsb.codename }} stable
+        repo: deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution|lower }} {{ ansible_lsb.codename }} stable
         state: present
-
-    - name: Update apt Cache
-      apt:
-        update_cache: yes
+      when: ansible_distribution in ['Ubuntu', 'Debian']
 
     - name: Install Docker
       apt:
         name: docker-ce
         state: latest
+      when: ansible_distribution in ['Ubuntu', 'Debian']
 
     - name: Download and Install Docker Compose
       get_url:
         url: https://github.com/docker/compose/releases/latest/download/docker-compose-Linux-x86_64
         dest: /usr/bin/docker-compose
         mode: '0755'
+      when: ansible_distribution in ['Ubuntu', 'Debian']
 
     - name: Create the Kuma Repository
       file:
